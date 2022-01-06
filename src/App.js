@@ -4,12 +4,12 @@ import Flag from "./component/Flag";
 
 //hard coded the same dimension png of the maps
 const flagsPng = [
-  { src: "/img/cn.png", name: "China", matchFound: false },
-  { src: "/img/dz.png", name: "Algeria", matchFound: false },
-  { src: "/img/fi.png", name: "Finland", matchFound: false },
-  { src: "/img/in.png", name: "India", matchFound: false },
-  { src: "/img/sg.png", name: "Singapore", matchFound: false },
-  { src: "/img/za.png", name: "S Africa", matchFound: false },
+  { src: process.env.PUBLIC_URL + "/img/cn.png", name: "China", matchFound: false },
+  { src: process.env.PUBLIC_URL + "/img/dz.png", name: "Algeria", matchFound: false },
+  { src: process.env.PUBLIC_URL + "/img/fi.png", name: "Finland", matchFound: false },
+  { src: process.env.PUBLIC_URL + "/img/in.png", name: "India", matchFound: false },
+  { src: process.env.PUBLIC_URL + "/img/sg.png", name: "Singapore", matchFound: false },
+  { src: process.env.PUBLIC_URL + "/img/za.png", name: "S Africa", matchFound: false },
 ];
 
 //a simple shuffle function got off from stackOverFlow
