@@ -1,6 +1,7 @@
 React project. Simple game. Demonstrating use of common hooks. 
 
-Live deployment: https://shamsch.github.io/match-flag/'
+Live deployment: https://shamsch.github.io/match-flag/
+
 Inspired from: https://github.com/iamshaunjp
 
 Shamsur Raza Chowdhury 
