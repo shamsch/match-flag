@@ -1,4 +1,4 @@
-React project. Simple game. Learning to use commonly used hooks. 
+React project. Simple game. Demonstrating use of common hooks. 
 
 <details>
 <summary>Default React ReadME.md</summary>
