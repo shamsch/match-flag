@@ -1,17 +1,16 @@
 import "./Flag.css";
 
-export default function Flag({ flagData, updateFlagChoice }) {
-  const handleClick= () => {
+export default function Flag({ flagData, updateFlagChoice, flipped, disable}) {
+  const handleClick = () => {
+    if(!disable){
       updateFlagChoice(flagData)
-  }
+    }
+  };
   return (
     <div className="flag">
-      <div>
-        <figure>
-          <img className="back" src={flagData.src} alt="flag"></img>
-          <figcaption>{flagData.name}</figcaption>
-        </figure>
-        <img className="front" src="/img/cover.png" alt="cover" onClick={handleClick}></img>
+      <div className={flipped ? "flipped" : ""}>
+        <img className="front" src={flagData.src} alt={flagData.name}></img>
+        <img src="/img/cover.png" alt="cover" onClick={handleClick}></img>
       </div>
     </div>
   );

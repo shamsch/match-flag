@@ -4,12 +4,12 @@ import Flag from "./component/Flag";
 
 //hard coded the same dimension png of the maps
 const flagsPng = [
-  { src: "/img/cn.png", name: "China" },
-  { src: "/img/dz.png", name: "Algeria" },
-  { src: "/img/fi.png", name: "Finland" },
-  { src: "/img/in.png", name: "India" },
-  { src: "/img/sg.png", name: "Singapore" },
-  { src: "/img/za.png", name: "S Africa" },
+  { src: "/img/cn.png", name: "China", matchFound: false },
+  { src: "/img/dz.png", name: "Algeria", matchFound: false },
+  { src: "/img/fi.png", name: "Finland", matchFound: false },
+  { src: "/img/in.png", name: "India", matchFound: false },
+  { src: "/img/sg.png", name: "Singapore", matchFound: false },
+  { src: "/img/za.png", name: "S Africa", matchFound: false },
 ];
 
 //a simple shuffle function got off from stackOverFlow
@@ -20,6 +20,8 @@ function App() {
   const [flags, setFlags] = useState(null);
   const [flagOne, setFlagOne] = useState(null);
   const [flagTwo, setFlagTwo] = useState(null);
+  const [turn, setTurn] = useState(0)
+  const [disable, setDisable] = useState(false)
 
   const shuffleTheFlags = () => {
     //making two of each, so as to create pair, bc well we will match pair
@@ -30,44 +32,78 @@ function App() {
       ...ele,
       key: `${Math.floor(Math.random() * 100000)}`,
     }));
+    setFlagOne(null)
+    setFlagTwo(null)
     setFlags(allFlagsInPair);
+    setTurn(0)
   };
 
   //handles clicking on the front cover
   const updateFlagChoice = (flag) => {
     //if flagOne is not null aka opened then then the new click is on the second flag
-    flagOne ? setFlagTwo(flag.name) : setFlagOne(flag.name);
+    flagOne ? setFlagTwo(flag) : setFlagOne(flag);
   };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     const compareChoices = () => {
-      if(flagOne===flagTwo){
-        console.log("Found Match")
+      //disable all flags while we process match 
+      setDisable(true)
+      if (flagOne.name === flagTwo.name) {
+        //access previous state easily with prevState and map over the array
+        setFlags((prevFlags) => {
+          return prevFlags.map((prevFlag) => {
+            if (prevFlag.name === flagOne.name || prevFlag.name === flagTwo.name) {
+              return { ...prevFlag, matchFound: true };
+            } else {
+              return prevFlag;
+            }
+          });
+        });
+        //console.log("Match found");
+      } else {
+        //console.log("Match not found");
       }
-      else{
-        console.log("Match not found")
-      }
-      turnComplete()
-    }
-    flagOne && flagTwo && compareChoices()
-  },[flagOne,flagTwo])
+      setTimeout(function(){
+        turnComplete();
+      }, 215);
+      
+    };
+    flagOne && flagTwo && compareChoices();
+  }, [flagOne, flagTwo]);
 
-  //reset upon one turn completion 
+  //reset upon one turn completion
   const turnComplete = () => {
-    setFlagOne(null)
-    setFlagTwo(null)
-  }
+    setDisable(false)
+    setFlagOne(null);
+    setFlagTwo(null);
+    setTurn(prevTurn => prevTurn+1)
+  };
 
-  console.log(flags);
-  console.log(flagOne, flagTwo);
+  //console.log(disable);
+  //console.log(flagOne, flagTwo);
   return (
     <div className="App">
-      <h1>Match the flags</h1>
-      <button onClick={shuffleTheFlags}>New Game</button>
-
+      <div> 
+        <h1>Click and find matching flags</h1>
+        <button onClick={shuffleTheFlags}>Start new game</button>
+      </div>
+  
       <div className="flag-grid">
         {flags &&
-          flags.map((ele) => <Flag flagData={ele} key={ele.key} updateFlagChoice={updateFlagChoice}></Flag>)}
+          flags.map((ele) => (
+            <Flag
+              flagData={ele}
+              key={ele.key}
+              updateFlagChoice={updateFlagChoice}
+              flipped={ele===flagOne || ele===flagTwo || ele.matchFound}
+              disable={disable}
+            >
+            </Flag>
+          ))}
+      </div>
+
+      <div>
+        {turn? <p>Turn counter: {turn}</p> : <p>Test your memory and luck!</p>}
       </div>
     </div>
   );
