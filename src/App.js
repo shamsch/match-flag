@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Flag from "./component/Flag";
 
@@ -18,20 +18,48 @@ const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
 function App() {
   const [flags, setFlags] = useState(null);
+  const [flagOne, setFlagOne] = useState(null);
+  const [flagTwo, setFlagTwo] = useState(null);
 
   const shuffleTheFlags = () => {
-    //making two of each, so as to create pair, bc well we will match pair 
+    //making two of each, so as to create pair, bc well we will match pair
     let allFlagsInPair = [...flagsPng, ...flagsPng];
     shuffle(allFlagsInPair);
-    //give key value in the as another object property 
+    //give key value in the as another object property
     allFlagsInPair = allFlagsInPair.map((ele) => ({
       ...ele,
       key: `${Math.floor(Math.random() * 100000)}`,
     }));
     setFlags(allFlagsInPair);
-    console.log(flags);
   };
 
+  //handles clicking on the front cover
+  const updateFlagChoice = (flag) => {
+    //if flagOne is not null aka opened then then the new click is on the second flag
+    flagOne ? setFlagTwo(flag.name) : setFlagOne(flag.name);
+  };
+  
+  useEffect(()=>{
+    const compareChoices = () => {
+      if(flagOne===flagTwo){
+        console.log("Found Match")
+      }
+      else{
+        console.log("Match not found")
+      }
+      turnComplete()
+    }
+    flagOne && flagTwo && compareChoices()
+  },[flagOne,flagTwo])
+
+  //reset upon one turn completion 
+  const turnComplete = () => {
+    setFlagOne(null)
+    setFlagTwo(null)
+  }
+
+  console.log(flags);
+  console.log(flagOne, flagTwo);
   return (
     <div className="App">
       <h1>Match the flags</h1>
@@ -39,9 +67,7 @@ function App() {
 
       <div className="flag-grid">
         {flags &&
-          flags.map((ele) => (
-            <Flag flagData={ele} key={ele.key}></Flag>
-          ))}
+          flags.map((ele) => <Flag flagData={ele} key={ele.key} updateFlagChoice={updateFlagChoice}></Flag>)}
       </div>
     </div>
   );
