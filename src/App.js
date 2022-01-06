@@ -27,7 +27,7 @@ function App() {
     //making two of each, so as to create pair, bc well we will match pair
     let allFlagsInPair = [...flagsPng, ...flagsPng];
     shuffle(allFlagsInPair);
-    //give key value in the as another object property
+    //give key value as another object property
     allFlagsInPair = allFlagsInPair.map((ele) => ({
       ...ele,
       key: `${Math.floor(Math.random() * 100000)}`,

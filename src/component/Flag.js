@@ -10,7 +10,7 @@ export default function Flag({ flagData, updateFlagChoice, flipped, disable}) {
     <div className="flag">
       <div className={flipped ? "flipped" : ""}>
         <img className="front" src={flagData.src} alt={flagData.name}></img>
-        <img src="/img/cover.png" alt="cover" onClick={handleClick}></img>
+        <img src= {process.env.PUBLIC_URL +"/img/cover.png"} alt="cover" onClick={handleClick}></img>
       </div>
     </div>
   );
